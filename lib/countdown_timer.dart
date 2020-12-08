@@ -10,14 +10,12 @@ class CountDownTimer extends StatefulWidget {
   final Color remainingCircleIndicatorColor;
   final Color remainingCircleBackgroundColor;
   final bool isFocusMode;
-  final bool autoStart;
 
   CountDownTimer({
     @required this.isFocusMode,
     @required this.initialCountDownDuration,
     @required this.remainingCircleIndicatorColor,
     @required this.remainingCircleBackgroundColor,
-    this.autoStart = true,
   });
 
   @override
@@ -61,10 +59,6 @@ class _CountDownTimerState extends State<CountDownTimer>
         // _showPopUp();
       }
     });
-
-    if (widget.autoStart) {
-      controller.reverse();
-    }
   }
 
   @override

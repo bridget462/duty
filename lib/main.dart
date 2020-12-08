@@ -34,13 +34,10 @@ class Home extends StatelessWidget {
 }
 
 class FocusTimer extends StatelessWidget {
-  final bool autoStart;
-
-  FocusTimer({this.autoStart = true});
+  FocusTimer();
   @override
   Widget build(BuildContext context) {
     return CountDownTimer(
-      autoStart: false,
       isFocusMode: true,
       initialCountDownDuration: Duration(minutes: 25),
       remainingCircleBackgroundColor: Color(0xFFF79D43),
@@ -53,7 +50,6 @@ class BreakTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CountDownTimer(
-      autoStart: false,
       isFocusMode: false,
       initialCountDownDuration: Duration(minutes: 5),
       remainingCircleBackgroundColor: Color(0xFF6A96E4),

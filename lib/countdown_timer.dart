@@ -10,14 +10,12 @@ class CountDownTimer extends StatefulWidget {
   final Color remainingCircleIndicatorColor;
   final Color remainingCircleBackgroundColor;
   final bool isFocusMode;
-  final bool autoStart;
 
   CountDownTimer({
     @required this.isFocusMode,
     @required this.initialCountDownDuration,
     @required this.remainingCircleIndicatorColor,
     @required this.remainingCircleBackgroundColor,
-    this.autoStart = true,
   });
 
   @override
@@ -30,7 +28,6 @@ class _CountDownTimerState extends State<CountDownTimer>
   Duration countdownDuration;
   Duration remainingTimeInDuration;
   final player = AudioCache();
-  // TODO make it selectable
   String ringtone = 'woodblock.mp3';
 
   String get timerString {
@@ -61,10 +58,12 @@ class _CountDownTimerState extends State<CountDownTimer>
         // _showPopUp();
       }
     });
+  }
 
-    if (widget.autoStart) {
-      controller.reverse();
-    }
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   Future<void> _showPopUp() async {
@@ -77,7 +76,6 @@ class _CountDownTimerState extends State<CountDownTimer>
 
   void reset() {
     print('reset function called');
-    // TODO reset extended time
     countdownDuration = widget.initialCountDownDuration;
     remainingTimeInDuration = countdownDuration;
 
@@ -229,21 +227,32 @@ class _CountDownTimerState extends State<CountDownTimer>
             return Stack(
               children: <Widget>[
                 Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      switchScreen(context);
-                    },
-                    icon: widget.isFocusMode
-                        ? Icon(
-                            Icons.free_breakfast,
-                            color: Colors.white70,
-                          )
-                        : Icon(
-                            Icons.check,
+                  alignment: Alignment(1, -1),
+                  child: widget.isFocusMode
+                      ? null
+                      : IconButton(
+                          icon: Icon(
+                            Icons.settings,
                             color: Colors.white70,
                           ),
-                  ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          }),
+                ),
+                // TODO make icon as buton and change page
+                Align(
+                  alignment: widget.isFocusMode
+                      ? Alignment(0.95, 0)
+                      : Alignment(-0.95, 0),
+                  child: widget.isFocusMode
+                      ? Icon(
+                          Icons.arrow_forward_ios_sharp,
+                          color: Colors.white24,
+                        )
+                      : Icon(
+                          Icons.arrow_back_ios_sharp,
+                          color: Colors.white24,
+                        ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(80.0),
@@ -295,10 +304,10 @@ class _CountDownTimerState extends State<CountDownTimer>
                                             builder: (context, child) {
                                               if (controller.value == 0) {
                                                 // when timer is finished, disable play/bause button
-                                                // TODO show like icon here
                                                 return IconButton(
                                                   onPressed: () {
-                                                    switchScreen(context);
+                                                    // TODO change page by pressing btn
+                                                    // switchScreen(context);
                                                   },
                                                   icon: widget.isFocusMode
                                                       ? Icon(

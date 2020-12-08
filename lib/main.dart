@@ -6,6 +6,9 @@ import 'package:numberpicker/numberpicker.dart';
 
 void main() => runApp(MyApp());
 
+const Color focusColor = Color(0xFFF79D43);
+const Color breakColor = Color(0xFF6A96E4);
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,47 +22,118 @@ class MyApp extends StatelessWidget {
           iconTheme: IconThemeData(
             color: Colors.white,
           ),
-          accentColor: Colors.red,
+          accentColor: focusColor,
         ),
         home: SettingPage());
   }
 }
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   // TODO make this selectable
-  int focusDurationInSec = 10;
+  @override
+  _SettingPageState createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  int focusDurationInMin = 25;
+  int focusDurationInSec = 00;
+  int breakDurationInMin = 5;
+  int breakDurationInSec = 00;
+
   final breakDuration = Duration(seconds: 5);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Center(
-            child: ElevatedButton(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // for focus mode
+                Row(
+                  children: [
+                    NumberPicker.integer(
+                      initialValue: focusDurationInMin,
+                      minValue: 0,
+                      maxValue: 240,
+                      onChanged: (num) => setState(() {
+                        focusDurationInMin = num;
+                      }),
+                    ),
+                    Text(
+                      ':',
+                      style: TextStyle(fontSize: 24, color: focusColor),
+                    ),
+                    NumberPicker.integer(
+                      initialValue: focusDurationInSec,
+                      minValue: 0,
+                      maxValue: 60,
+                      onChanged: (num) => setState(() {
+                        focusDurationInSec = num;
+                      }),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 40,
+                ),
+                // for break mode
+                Row(
+                  children: [
+                    NumberPicker.integer(
+                      selectedTextStyle:
+                          TextStyle(fontSize: 24, color: breakColor),
+                      initialValue: breakDurationInMin,
+                      minValue: 0,
+                      maxValue: 240,
+                      onChanged: (num) => setState(() {
+                        breakDurationInMin = num;
+                      }),
+                    ),
+                    Text(
+                      ':',
+                      style: TextStyle(fontSize: 24, color: breakColor),
+                    ),
+                    NumberPicker.integer(
+                      selectedTextStyle:
+                          TextStyle(fontSize: 24, color: breakColor),
+                      initialValue: breakDurationInSec,
+                      minValue: 0,
+                      maxValue: 60,
+                      onChanged: (num) => setState(() {
+                        breakDurationInSec = num;
+                      }),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            ElevatedButton(
               child: Text('Go to Home page'),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => Home(
-                            focusDuration:
-                                Duration(seconds: focusDurationInSec),
-                            breakDuration: breakDuration,
-                          )),
+                    builder: (context) => Home(
+                      focusDuration: Duration(
+                        minutes: focusDurationInMin,
+                        seconds: focusDurationInSec,
+                      ),
+                      breakDuration: Duration(
+                        minutes: breakDurationInMin,
+                        seconds: breakDurationInSec,
+                      ),
+                    ),
+                  ),
                 );
               },
             ),
-          ),
-          NumberPicker.integer(
-              initialValue: 50,
-              minValue: 0,
-              maxValue: 100,
-              onChanged: (num) {
-                focusDurationInSec = num;
-                print(focusDurationInSec);
-              })
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -91,7 +165,7 @@ class FocusTimer extends StatelessWidget {
     return CountDownTimer(
       isFocusMode: true,
       initialCountDownDuration: focusDuration,
-      remainingCircleBackgroundColor: Color(0xFFF79D43),
+      remainingCircleBackgroundColor: focusColor,
       remainingCircleIndicatorColor: Colors.grey[800],
     );
   }
@@ -106,7 +180,7 @@ class BreakTimer extends StatelessWidget {
     return CountDownTimer(
       isFocusMode: false,
       initialCountDownDuration: breakDuration,
-      remainingCircleBackgroundColor: Color(0xFF6A96E4),
+      remainingCircleBackgroundColor: breakColor,
       remainingCircleIndicatorColor: Colors.grey[800],
     );
   }

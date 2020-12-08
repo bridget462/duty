@@ -228,6 +228,18 @@ class _CountDownTimerState extends State<CountDownTimer>
           builder: (context, child) {
             return Stack(
               children: <Widget>[
+                Align(
+                    alignment: Alignment(1, -1),
+                    child: widget.isFocusMode
+                        ? null
+                        : IconButton(
+                            icon: Icon(
+                              Icons.settings,
+                              color: Colors.white70,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            })),
                 Padding(
                   padding: EdgeInsets.all(80.0),
                   child: Column(

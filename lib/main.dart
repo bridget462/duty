@@ -20,7 +20,27 @@ class MyApp extends StatelessWidget {
           ),
           accentColor: Colors.red,
         ),
-        home: Home());
+        home: SettingPage());
+  }
+}
+
+class SettingPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          child: Text('Go to Home page'),
+          onPressed: () {
+            // TODO move to Home page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Home()),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 

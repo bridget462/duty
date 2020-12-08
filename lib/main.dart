@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
 }
 
 class SettingPage extends StatefulWidget {
-  // TODO make this selectable
   @override
   _SettingPageState createState() => _SettingPageState();
 }
@@ -91,9 +90,8 @@ class _SettingPageState extends State<SettingPage> {
                   margin: EdgeInsets.only(left: 16, right: 16, top: 14),
                   width: 2.5,
                   height: 135,
-                  color: Colors.white,
+                  color: Colors.white24,
                 ),
-
                 // for break mode
                 Column(
                   children: [

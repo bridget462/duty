@@ -67,6 +67,12 @@ class _CountDownTimerState extends State<CountDownTimer>
     }
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   Future<void> _showPopUp() async {
     if (widget.isFocusMode) {
       showBreakAlert(context);
@@ -228,23 +234,6 @@ class _CountDownTimerState extends State<CountDownTimer>
           builder: (context, child) {
             return Stack(
               children: <Widget>[
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    onPressed: () {
-                      switchScreen(context);
-                    },
-                    icon: widget.isFocusMode
-                        ? Icon(
-                            Icons.free_breakfast,
-                            color: Colors.white70,
-                          )
-                        : Icon(
-                            Icons.check,
-                            color: Colors.white70,
-                          ),
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.all(80.0),
                   child: Column(

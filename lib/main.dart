@@ -12,17 +12,23 @@ class MyApp extends StatelessWidget {
     Screen.keepOn(true);
 
     return MaterialApp(
-      home: FocusTimer(
-        autoStart: false,
-      ),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        iconTheme: IconThemeData(
-          color: Colors.white,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          iconTheme: IconThemeData(
+            color: Colors.white,
+          ),
+          accentColor: Colors.red,
         ),
-        accentColor: Colors.red,
-      ),
+        home: Home());
+  }
+}
+
+class Home extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      children: [FocusTimer(), BreakTimer()],
     );
   }
 }
@@ -34,7 +40,7 @@ class FocusTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CountDownTimer(
-      autoStart: autoStart,
+      autoStart: false,
       isFocusMode: true,
       initialCountDownDuration: Duration(minutes: 25),
       remainingCircleBackgroundColor: Color(0xFFF79D43),
@@ -47,6 +53,7 @@ class BreakTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CountDownTimer(
+      autoStart: false,
       isFocusMode: false,
       initialCountDownDuration: Duration(minutes: 5),
       remainingCircleBackgroundColor: Color(0xFF6A96E4),

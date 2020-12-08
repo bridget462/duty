@@ -54,83 +54,110 @@ class _SettingPageState extends State<SettingPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 // for focus mode
-                Row(
+                Column(
                   children: [
-                    NumberPicker.integer(
-                      initialValue: focusDurationInMin,
-                      minValue: 0,
-                      maxValue: 240,
-                      onChanged: (num) => setState(() {
-                        focusDurationInMin = num;
-                      }),
+                    Row(
+                      children: [
+                        NumberPicker.integer(
+                          initialValue: focusDurationInMin,
+                          minValue: 0,
+                          maxValue: 240,
+                          onChanged: (num) => setState(() {
+                            focusDurationInMin = num;
+                          }),
+                        ),
+                        Text(
+                          ':',
+                          style: TextStyle(fontSize: 24, color: focusColor),
+                        ),
+                        NumberPicker.integer(
+                          initialValue: focusDurationInSec,
+                          minValue: 0,
+                          maxValue: 60,
+                          onChanged: (num) => setState(() {
+                            focusDurationInSec = num;
+                          }),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 8),
                     Text(
-                      ':',
-                      style: TextStyle(fontSize: 24, color: focusColor),
-                    ),
-                    NumberPicker.integer(
-                      initialValue: focusDurationInSec,
-                      minValue: 0,
-                      maxValue: 60,
-                      onChanged: (num) => setState(() {
-                        focusDurationInSec = num;
-                      }),
+                      'focus time',
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: 40,
+                // Divider
+                Container(
+                  margin: EdgeInsets.only(left: 16, right: 16, top: 14),
+                  width: 2.5,
+                  height: 135,
+                  color: Colors.white,
                 ),
+
                 // for break mode
-                Row(
+                Column(
                   children: [
-                    NumberPicker.integer(
-                      selectedTextStyle:
-                          TextStyle(fontSize: 24, color: breakColor),
-                      initialValue: breakDurationInMin,
-                      minValue: 0,
-                      maxValue: 240,
-                      onChanged: (num) => setState(() {
-                        breakDurationInMin = num;
-                      }),
+                    Row(
+                      children: [
+                        NumberPicker.integer(
+                          selectedTextStyle:
+                              TextStyle(fontSize: 24, color: breakColor),
+                          initialValue: breakDurationInMin,
+                          minValue: 0,
+                          maxValue: 240,
+                          onChanged: (num) => setState(() {
+                            breakDurationInMin = num;
+                          }),
+                        ),
+                        Text(
+                          ':',
+                          style: TextStyle(fontSize: 24, color: breakColor),
+                        ),
+                        NumberPicker.integer(
+                          selectedTextStyle:
+                              TextStyle(fontSize: 24, color: breakColor),
+                          initialValue: breakDurationInSec,
+                          minValue: 0,
+                          maxValue: 60,
+                          onChanged: (num) => setState(() {
+                            breakDurationInSec = num;
+                          }),
+                        ),
+                      ],
                     ),
+                    SizedBox(height: 8),
                     Text(
-                      ':',
-                      style: TextStyle(fontSize: 24, color: breakColor),
-                    ),
-                    NumberPicker.integer(
-                      selectedTextStyle:
-                          TextStyle(fontSize: 24, color: breakColor),
-                      initialValue: breakDurationInSec,
-                      minValue: 0,
-                      maxValue: 60,
-                      onChanged: (num) => setState(() {
-                        breakDurationInSec = num;
-                      }),
+                      'break time',
                     ),
                   ],
                 ),
               ],
             ),
-            ElevatedButton(
-              child: Text('Go to Home page'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home(
-                      focusDuration: Duration(
-                        minutes: focusDurationInMin,
-                        seconds: focusDurationInSec,
-                      ),
-                      breakDuration: Duration(
-                        minutes: breakDurationInMin,
-                        seconds: breakDurationInSec,
+            Padding(
+              padding: EdgeInsets.all(24),
+              child: TextButton(
+                child: Text(
+                  'START',
+                  style: TextStyle(color: focusColor),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Home(
+                        focusDuration: Duration(
+                          minutes: focusDurationInMin,
+                          seconds: focusDurationInSec,
+                        ),
+                        breakDuration: Duration(
+                          minutes: breakDurationInMin,
+                          seconds: breakDurationInSec,
+                        ),
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ],
         ),

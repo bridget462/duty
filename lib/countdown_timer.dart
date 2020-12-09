@@ -67,14 +67,6 @@ class _CountDownTimerState extends State<CountDownTimer>
     super.dispose();
   }
 
-  Future<void> _showPopUp() async {
-    if (widget.isFocusMode) {
-      showBreakAlert(context);
-    } else {
-      showLetsWorkAlert(context);
-    }
-  }
-
   void reset() {
     print('reset function called');
     countdownDuration = widget.initialCountDownDuration;
@@ -109,11 +101,11 @@ class _CountDownTimerState extends State<CountDownTimer>
     setState(() {});
   }
 
-  void addOneMin() {
-    print('addOneMin function called');
+  void adjastTimerLength(Duration duration) {
+    print('adjastTimerLength function called');
     // update remaining time
-    remainingTimeInDuration += Duration(minutes: 1);
-    countdownDuration += Duration(minutes: 1);
+    remainingTimeInDuration += duration;
+    countdownDuration += duration;
 
     controller = AnimationController(
       vsync: this,
@@ -296,9 +288,40 @@ class _CountDownTimerState extends State<CountDownTimer>
                                             MainAxisAlignment.center,
                                         children: <Widget>[
                                           // add one minute button
-                                          IconButton(
-                                            onPressed: addOneMin,
-                                            icon: Icon(Icons.add),
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12.0),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    adjastTimerLength(
+                                                      Duration(minutes: 1),
+                                                    );
+                                                  },
+                                                  child: Icon(Icons.add),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12.0),
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    if (remainingTimeInDuration >
+                                                        Duration(minutes: 1)) {
+                                                      adjastTimerLength(
+                                                        -Duration(minutes: 1),
+                                                      );
+                                                    }
+                                                  },
+                                                  child: Icon(Icons.remove),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                           // play / pause button
                                           AnimatedBuilder(

@@ -8,6 +8,8 @@ void main() => runApp(MyApp());
 
 const Color focusColor = Color(0xFFF79D43);
 const Color breakColor = Color(0xFF6A96E4);
+const Color backgroundColor = Color(0xFF121212);
+const Color remainingColor = Color(0xFF0a0a0a);
 
 class MyApp extends StatelessWidget {
   @override
@@ -44,6 +46,7 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +194,7 @@ class FocusTimer extends StatelessWidget {
       isFocusMode: true,
       initialCountDownDuration: focusDuration,
       remainingCircleBackgroundColor: focusColor,
-      remainingCircleIndicatorColor: Colors.grey[800],
+      remainingCircleIndicatorColor: remainingColor,
     );
   }
 }
@@ -206,7 +209,7 @@ class BreakTimer extends StatelessWidget {
       isFocusMode: false,
       initialCountDownDuration: breakDuration,
       remainingCircleBackgroundColor: breakColor,
-      remainingCircleIndicatorColor: Colors.grey[800],
+      remainingCircleIndicatorColor: remainingColor,
     );
   }
 }

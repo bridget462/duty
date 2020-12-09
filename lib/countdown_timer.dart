@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:audioplayers/audio_cache.dart';
+import 'main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/main.dart';
@@ -221,6 +222,7 @@ class _CountDownTimerState extends State<CountDownTimer>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: AnimatedBuilder(
           animation: controller,
           builder: (context, child) {

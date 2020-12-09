@@ -4,6 +4,7 @@ import 'main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pomodoro_timer/main.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 
 class CountDownTimer extends StatefulWidget {
   final Duration initialCountDownDuration;
@@ -55,7 +56,7 @@ class _CountDownTimerState extends State<CountDownTimer>
       // print(controller.value);
       updateRemainingTimeInDuration();
       if (controller.value == 0.0) {
-        player.play(ringtone);
+        FlutterRingtonePlayer.playAlarm();
         // _showPopUp();
       }
     });
@@ -64,6 +65,8 @@ class _CountDownTimerState extends State<CountDownTimer>
   @override
   void dispose() {
     controller.dispose();
+    // when leaving page, alarm should stop
+    FlutterRingtonePlayer.stop();
     super.dispose();
   }
 
@@ -82,7 +85,7 @@ class _CountDownTimerState extends State<CountDownTimer>
     controller.addListener(() {
       updateRemainingTimeInDuration();
       if (controller.value == 0.0) {
-        player.play(ringtone);
+        FlutterRingtonePlayer.playAlarm();
         // _showPopUp();
       }
     });
@@ -123,7 +126,7 @@ class _CountDownTimerState extends State<CountDownTimer>
     controller.addListener(() {
       updateRemainingTimeInDuration();
       if (controller.value == 0.0) {
-        player.play(ringtone);
+        FlutterRingtonePlayer.playAlarm();
         // _showPopUp();
       }
     });
@@ -144,7 +147,7 @@ class _CountDownTimerState extends State<CountDownTimer>
   }
 
   void showBreakAlert(BuildContext context) {
-    player.play(ringtone);
+    FlutterRingtonePlayer.playAlarm();
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -178,7 +181,7 @@ class _CountDownTimerState extends State<CountDownTimer>
   }
 
   void showLetsWorkAlert(BuildContext context) {
-    player.play(ringtone);
+    FlutterRingtonePlayer.playAlarm();
     showDialog(
         context: context,
         barrierDismissible: true,
@@ -248,6 +251,7 @@ class _CountDownTimerState extends State<CountDownTimer>
                           color: Colors.white24,
                         ),
                 ),
+
                 Padding(
                   padding: EdgeInsets.all(80.0),
                   child: Column(
@@ -332,12 +336,12 @@ class _CountDownTimerState extends State<CountDownTimer>
                                                 return IconButton(
                                                   onPressed: () {
                                                     // TODO change page by pressing btn
+                                                    print('finish btn called');
+                                                    FlutterRingtonePlayer
+                                                        .stop();
                                                     // switchScreen(context);
                                                   },
-                                                  icon: widget.isFocusMode
-                                                      ? Icon(
-                                                          Icons.free_breakfast)
-                                                      : Icon(Icons.check),
+                                                  icon: Icon(Icons.check),
                                                   iconSize: 40.0,
                                                 );
                                               } else {
@@ -382,21 +386,6 @@ class _CountDownTimerState extends State<CountDownTimer>
                           ),
                         ),
                       ),
-                      // RaisedButton(
-                      //   onPressed: () {
-                      //     print('debug botton pressed.');
-                      //     print(timerString);
-                      //     player.play(ringtone);
-
-                      //     // if (widget.isFocusMode) {
-                      //     //   showBreakAlert(context);
-                      //     // } else {
-                      //     //   // go back to focus screen
-                      //     //   showLetsWorkAlert(context);
-                      //     // }
-                      //   },
-                      //   child: Text('Debug Button'),
-                      // ),
                     ],
                   ),
                 ),

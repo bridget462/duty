@@ -107,8 +107,10 @@ class _CountDownTimerState extends State<CountDownTimer>
   void adjastTimerLength(Duration duration) {
     print('adjastTimerLength function called');
     // update remaining time
+    if (remainingTimeInDuration + duration > countdownDuration) {
+      countdownDuration += duration;
+    }
     remainingTimeInDuration += duration;
-    countdownDuration += duration;
 
     controller = AnimationController(
       vsync: this,

@@ -107,8 +107,10 @@ class _CountDownTimerState extends State<CountDownTimer>
   void adjastTimerLength(Duration duration) {
     print('adjastTimerLength function called');
     // update remaining time
+    if (remainingTimeInDuration + duration > countdownDuration) {
+      countdownDuration += duration;
+    }
     remainingTimeInDuration += duration;
-    countdownDuration += duration;
 
     controller = AnimationController(
       vsync: this,
@@ -276,106 +278,115 @@ class _CountDownTimerState extends State<CountDownTimer>
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
-                                    Positioned(
-                                      top: 145,
-                                      child: Text(
-                                        timerString,
-                                        style: TextStyle(
-                                          color: Colors.grey[600],
-                                        ),
-                                      ),
-                                    ),
                                     Align(
                                       alignment: FractionalOffset.center,
-                                      child: Row(
+                                      child: Column(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          // add one minute button
-                                          Column(
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          // needed these empty text to position timer string with column mainaxis space evenly option
+                                          Text(''),
+                                          Text(''),
+                                          Text(''),
+                                          // control buttons
+                                          Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
+                                            children: <Widget>[
+                                              // add one minute button
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
                                                         horizontal: 12.0),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    adjastTimerLength(
-                                                      Duration(minutes: 1),
-                                                    );
-                                                  },
-                                                  child: Icon(Icons.add),
-                                                ),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        adjastTimerLength(
+                                                          Duration(minutes: 1),
+                                                        );
+                                                      },
+                                                      child: Icon(Icons.add),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 12.0),
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        if (remainingTimeInDuration >
+                                                            Duration(
+                                                                minutes: 1)) {
+                                                          adjastTimerLength(
+                                                            -Duration(
+                                                                minutes: 1),
+                                                          );
+                                                        }
+                                                      },
+                                                      child: Icon(Icons.remove),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 12.0),
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    if (remainingTimeInDuration >
-                                                        Duration(minutes: 1)) {
-                                                      adjastTimerLength(
-                                                        -Duration(minutes: 1),
+                                              // play / pause button
+                                              AnimatedBuilder(
+                                                animation: controller,
+                                                builder: (context, child) {
+                                                  if (controller.value == 0) {
+                                                    // when timer is finished, disable play/bause button
+                                                    return IconButton(
+                                                      onPressed: () {
+                                                        // TODO change page by pressing btn
+                                                        print(
+                                                            'finish btn called');
+                                                        FlutterRingtonePlayer
+                                                            .stop();
+                                                        // switchScreen(context);
+                                                      },
+                                                      icon: Icon(Icons.check),
+                                                      iconSize: 40.0,
+                                                    );
+                                                  } else {
+                                                    if (controller
+                                                            .isAnimating ==
+                                                        true) {
+                                                      return IconButton(
+                                                        onPressed: pause,
+                                                        icon: Icon(Icons.pause),
+                                                        iconSize: 40.0,
+                                                      );
+                                                    } else {
+                                                      return IconButton(
+                                                        onPressed: play,
+                                                        icon: Icon(
+                                                            Icons.play_arrow),
+                                                        iconSize: 40.0,
                                                       );
                                                     }
-                                                  },
-                                                  child: Icon(Icons.remove),
-                                                ),
+                                                  }
+                                                },
+                                              ),
+                                              // reset button
+                                              AnimatedBuilder(
+                                                animation: controller,
+                                                builder: (context, child) {
+                                                  return IconButton(
+                                                    onPressed:
+                                                        controller.value != 1.0
+                                                            ? reset
+                                                            : null,
+                                                    icon: Icon(Icons.replay),
+                                                  );
+                                                },
                                               ),
                                             ],
                                           ),
-                                          // play / pause button
-                                          AnimatedBuilder(
-                                            animation: controller,
-                                            builder: (context, child) {
-                                              if (controller.value == 0) {
-                                                // when timer is finished, disable play/bause button
-                                                return IconButton(
-                                                  onPressed: () {
-                                                    // TODO change page by pressing btn
-                                                    print('finish btn called');
-                                                    FlutterRingtonePlayer
-                                                        .stop();
-                                                    // switchScreen(context);
-                                                  },
-                                                  icon: Icon(Icons.check),
-                                                  iconSize: 40.0,
-                                                );
-                                              } else {
-                                                if (controller.isAnimating ==
-                                                    true) {
-                                                  return IconButton(
-                                                    onPressed: pause,
-                                                    icon: Icon(Icons.pause),
-                                                    iconSize: 40.0,
-                                                  );
-                                                } else {
-                                                  return IconButton(
-                                                    onPressed: play,
-                                                    icon:
-                                                        Icon(Icons.play_arrow),
-                                                    iconSize: 40.0,
-                                                  );
-                                                }
-                                              }
-                                            },
-                                          ),
-                                          // reset button
-                                          AnimatedBuilder(
-                                            animation: controller,
-                                            builder: (context, child) {
-                                              return IconButton(
-                                                onPressed:
-                                                    controller.value != 1.0
-                                                        ? reset
-                                                        : null,
-                                                icon: Icon(Icons.replay),
-                                              );
-                                            },
-                                          ),
+                                          Text(timerString),
+                                          Text(''),
+                                          Text(''),
                                         ],
                                       ),
                                     ),
